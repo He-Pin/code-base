@@ -35,21 +35,19 @@ public interface BufferReader {
 
     double getDouble();
 
-    BufferReader getBytes(int index, ByteBuffer dst);
+    BufferReader getBytes(ByteBuffer dst);
 
-    BufferReader getBytes(int index, ByteBuffer dst, int length);
+    BufferReader getBytes(ByteBuffer dst, int length);
 
-    BufferReader getBytes(int index, ByteBuffer dst, int dstIndex, int length);
+    BufferReader getBytes(byte[] dst);
 
-    BufferReader getBytes(int index, byte[] dst);
+    BufferReader getBytes(byte[] dst, int length);
 
-    BufferReader getBytes(int index, byte[] dst, int length);
+    BufferReader getBytes(byte[] dst, int dstIndex, int length);
 
-    BufferReader getBytes(int index, byte[] dst, int dstIndex, int length);
+    BufferReader getBytes(OutputStream dst) throws IOException;
 
-    BufferReader getBytes(int index, OutputStream dst) throws IOException;
-
-    BufferReader getBytes(int index, OutputStream dst, int length) throws IOException;
+    BufferReader getBytes(OutputStream dst, int length) throws IOException;
 
     boolean readBoolean();
 
@@ -83,16 +81,14 @@ public interface BufferReader {
 
     BufferReader readBytes(ByteBuffer dst, int length);
 
-    BufferReader readBytes(ByteBuffer dst, int dstIndex, int length);
-
     BufferReader readBytes(byte[] dst);
 
     BufferReader readBytes(byte[] dst,int length);
 
     BufferReader readBytes(byte[] dst, int dstIndex, int length);
 
-    BufferReader readBytes(int index, OutputStream dst) throws IOException;
+    BufferReader readBytes(OutputStream dst) throws IOException;
 
-    BufferReader readBytes(int index, OutputStream dst, int length) throws IOException;
+    BufferReader readBytes(OutputStream dst, int length) throws IOException;
 
 }
