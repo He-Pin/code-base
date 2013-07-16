@@ -3,10 +3,7 @@ package com.pekall.codebase.concurrent;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * Created with IntelliJ IDEA.
- * User: hepin1989@pekall.com
- * Date: 7/16/13
- * Time: 10:41 AM
+ * author: hepin1989@gmail.com
  */
 public class NamedThreadFactory implements ThreadFactory{
     private String name = "Default Thread";

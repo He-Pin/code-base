@@ -7,10 +7,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created with IntelliJ IDEA.
- * User: hepin1989@gmail.com
- * Date: 7/16/13
- * Time: 10:23 AM
+ * author: hepin1989@gmail.com
  */
 public class ConcurrentHashSet<E> extends AbstractSet<E> implements Set<E>,
         Serializable {
