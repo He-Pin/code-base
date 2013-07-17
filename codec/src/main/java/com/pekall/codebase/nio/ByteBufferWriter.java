@@ -1,5 +1,6 @@
 package com.pekall.codebase.nio;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
@@ -18,132 +19,198 @@ public class ByteBufferWriter implements BufferWriter {
     }
 
     @Override
-    public BufferWriter setBoolean(int index, int value) {
-        return null;
+    public BufferWriter setBoolean(int index, boolean value) {
+        buffer.mark();
+        buffer.put(index, (byte) (value?1:0));
+        buffer.reset();
+        return this;
     }
 
     @Override
-    public BufferWriter setByte(int index, int value) {
-        return null;
+    public BufferWriter setByte(int index, byte value) {
+        buffer.mark();
+        buffer.put(index, value);
+        buffer.reset();
+        return this;
     }
 
     @Override
-    public BufferWriter setChar(int index, int value) {
-        return null;
+    public BufferWriter setChar(int index, char value) {
+        buffer.mark();
+        buffer.putChar(index, value);
+        buffer.reset();
+        return this;
     }
 
     @Override
-    public BufferWriter setShort(int index, int value) {
+    public BufferWriter setShort(int index, short value) {
+        buffer.mark();
+        buffer.putShort(index, value);
+        buffer.reset();
         return null;
     }
 
     @Override
     public BufferWriter setMedium(int index, int value) {
-        return null;
+        buffer.mark();
+        buffer.put(index, (byte) (value >>> 16));
+        buffer.put(index, (byte) (value>>>8));
+        buffer.put(index, (byte) value);
+        buffer.reset();
+        return this;
     }
 
     @Override
     public BufferWriter setInt(int index, int value) {
-        return null;
+        buffer.mark();
+        buffer.putInt(index, value);
+        buffer.reset();
+        return this;
     }
 
     @Override
     public BufferWriter setLong(int index, long value) {
-        return null;
+        buffer.mark();
+        buffer.putLong(index,value);
+        buffer.reset();
+        return this;
     }
 
     @Override
     public BufferWriter setFloat(int index, float value) {
-        return null;
+        buffer.mark();
+        buffer.putFloat(index,value);
+        buffer.reset();
+        return this;
     }
 
     @Override
     public BufferWriter setDouble(int index, double value) {
-        return null;
+        buffer.mark();
+        buffer.putDouble(index, value);
+        buffer.reset();
+        return this;
     }
 
     @Override
     public BufferWriter setBytes(int index, byte[] bytes) {
-        return null;
+        buffer.mark();
+        buffer.position(index);
+        buffer.put(bytes);
+        buffer.reset();
+        return this;
     }
 
     @Override
     public BufferWriter writeBoolean(boolean value) {
-        return null;
+        buffer.put((byte) (value ? 1 : 0));
+        return this;
     }
 
     @Override
-    public BufferWriter writeByte(int value) {
-        return null;
+    public BufferWriter writeByte(byte value) {
+        buffer.put(value);
+        return this;
     }
 
     @Override
-    public BufferWriter writeChar(int value) {
-        return null;
+    public BufferWriter writeChar(char value) {
+        buffer.putChar(value);
+        return this;
     }
 
     @Override
-    public BufferWriter writeShort(int value) {
-        return null;
+    public BufferWriter writeShort(short value) {
+        buffer.putShort(value);
+        return this;
     }
 
     @Override
     public BufferWriter writeMedium(int value) {
-        return null;
+        buffer.put((byte) (value>>>16));
+        buffer.put((byte) (value>>>8));
+        buffer.put((byte) value);
+        return this;
     }
 
     @Override
     public BufferWriter writeInt(int value) {
-        return null;
+        buffer.putInt(value);
+        return this;
     }
 
     @Override
     public BufferWriter writeLong(long value) {
-        return null;
+        buffer.putLong(value);
+        return this;
     }
 
     @Override
     public BufferWriter writeFloat(float value) {
-        return null;
+        buffer.putFloat(value);
+        return this;
     }
 
     @Override
     public BufferWriter writeDouble(float value) {
-        return null;
+        buffer.putDouble(value);
+        return this;
     }
 
     @Override
     public BufferWriter writeBytes(ByteBuffer src) {
-        return null;
+        buffer.put(src);
+        return this;
     }
 
     @Override
     public BufferWriter writeBytes(ByteBuffer src, int length) {
-        return null;
-    }
-
-    @Override
-    public BufferWriter writeBytes(ByteBuffer src, int index, int length) {
-        return null;
+        if (length < 0 || src == null){
+            return this;
+        }
+        byte[] tmp = new byte[length];
+        src.get(tmp);
+        buffer.put(tmp);
+        return this;
     }
 
     @Override
     public BufferWriter writeBytes(byte[] src) {
-        return null;
+        if (src == null) {
+            return this;
+        }
+        buffer.put(src);
+        return this;
     }
 
     @Override
     public BufferWriter writeBytes(byte[] src, int length) {
-        return null;
+        if (src == null || length < 0) {
+            return this;
+        }
+        buffer.put(src, 0, src.length);
+        return this;
     }
 
     @Override
-    public BufferWriter writeBytes(byte[] src, int index, int length) {
-        return null;
+    public BufferWriter writeBytes(InputStream src, int length) throws IOException {
+        if (src == null || length < 0){
+            return this;
+        }
+        for (int i = 0; i < length && buffer.hasRemaining(); i++) {
+            int value = src.read();
+            if (value == -1 ){
+                return this;
+            }
+            buffer.put((byte) value);
+        }
+        return this;
     }
 
-    @Override
-    public BufferWriter writeBytes(InputStream src, int length) {
-        return null;
+    private void checkIndex(int index){
+        if (buffer.capacity() < index){
+            throw new IndexOutOfBoundsException(String.format(
+                    "index(%d) exceeds capacity(%d): %s", index,buffer.capacity(),this));
+        }
     }
 }

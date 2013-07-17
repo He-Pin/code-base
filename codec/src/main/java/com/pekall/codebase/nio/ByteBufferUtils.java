@@ -17,4 +17,8 @@ public class ByteBufferUtils {
         copy.flip();
         return copy;
     }
+    public static ByteBuffer scaleTo(ByteBuffer source,long length){
+
+        return null;
+    }
 }

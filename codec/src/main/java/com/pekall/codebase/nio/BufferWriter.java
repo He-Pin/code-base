@@ -1,5 +1,6 @@
 package com.pekall.codebase.nio;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
@@ -8,13 +9,13 @@ import java.nio.ByteBuffer;
  */
 public interface BufferWriter {
 
-    BufferWriter setBoolean(int index, int value);
+    BufferWriter setBoolean(int index, boolean value);
 
-    BufferWriter setByte(int index, int value);
+    BufferWriter setByte(int index, byte value);
 
-    BufferWriter setChar(int index, int value);
+    BufferWriter setChar(int index, char value);
 
-    BufferWriter setShort(int index, int value);
+    BufferWriter setShort(int index, short value);
 
     BufferWriter setMedium(int index, int value);
 
@@ -30,11 +31,11 @@ public interface BufferWriter {
 
     BufferWriter writeBoolean(boolean value);
 
-    BufferWriter writeByte(int value);
+    BufferWriter writeByte(byte value);
 
-    BufferWriter writeChar(int value);
+    BufferWriter writeChar(char value);
 
-    BufferWriter writeShort(int value);
+    BufferWriter writeShort(short value);
 
     BufferWriter writeMedium(int value);
 
@@ -50,13 +51,9 @@ public interface BufferWriter {
 
     BufferWriter writeBytes(ByteBuffer src, int length);
 
-    BufferWriter writeBytes(ByteBuffer src, int index, int length);
-
     BufferWriter writeBytes(byte[] src);
 
     BufferWriter writeBytes(byte[] src, int length);
 
-    BufferWriter writeBytes(byte[] src, int index, int length);
-
-    BufferWriter writeBytes(InputStream src, int length);
+    BufferWriter writeBytes(InputStream src, int length) throws IOException;
 }
